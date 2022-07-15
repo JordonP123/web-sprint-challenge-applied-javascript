@@ -11,6 +11,29 @@ const Header = (title, date, temp) => {
   //    <span class="temp">{ temp }</span>
   //  </div>
   //
+  
+  //create the html
+  const containerDiv = document.createElement('div');
+  const span = document.createElement('span'); 
+  const span2 = document.createElement('span');
+  const h1 = document.createElement('h1');
+
+  //add classes
+  containerDiv.classList.add('header');
+  span.classList.add('date');
+  span2.classList.add('temp');
+
+  //append things
+  containerDiv.appendChild(span);
+  containerDiv.appendChild(h1);
+  containerDiv.appendChild(span2);
+
+  //add textContent
+  span.textContent = date;
+  h1.textContent = title;
+  span2.textContent = temp;
+
+  return containerDiv
 }
 
 const headerAppender = (selector) => {
@@ -20,6 +43,8 @@ const headerAppender = (selector) => {
   // It should create a header using the Header component above, passing arguments of your choosing.
   // It should append the header to the element in the DOM that matches the given selector.
   //
+  const container = document.querySelector(selector);
+  container.appendChild(Header('Lambada Times', 'Date: 7/14/22', 'Temperature: 90°F'))
 }
 
 export { Header, headerAppender }

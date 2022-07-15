@@ -7,7 +7,27 @@ const Card = (article) => {
   // The text inside elements will be set using their `textContent` property (NOT `innerText`).
   // Add a listener for click events so that when a user clicks on a card, the headline of the article is logged to the console.
   //
-  // <div class="card">
+  //create html markup
+  const containerDiv = document.createElement('div');
+  const headlineDiv = document.createElement('div');
+  const authorDiv = document.createElement('div');
+  const imgContainerDiv = document.createElement('div');
+  const img = document.createElement('img');
+  const span = document.createElement('span');
+
+  //add classList
+  containerDiv.classList.add('card');
+  headlineDiv.classList.add('headline');
+  authorDiv.classList.add('author');
+  imgContainerDiv.classList.add('img-container');
+
+  //add textContent
+  headlineDiv.textContent = article.headline;
+  img.src = article.authorPhoto;
+  span.textContent = `By ${article.authorName}`;
+
+  //append things and such
+    // <div class="card">
   //   <div class="headline">{ headline }</div>
   //   <div class="author">
   //     <div class="img-container">
@@ -17,7 +37,22 @@ const Card = (article) => {
   //   </div>
   // </div>
   //
+  containerDiv.appendChild(headlineDiv);
+  containerDiv.appendChild(authorDiv);
+  authorDiv.appendChild(imgContainerDiv);
+  authorDiv.appendChild(span);
+  imgContainerDiv.appendChild(img);
+
+  containerDiv.addEventListener('click', e =>{
+    console.log(`Author of this card is: ${headlineDiv}`);
+  })
+
+  return containerDiv
+
+
 }
+
+import axios from "axios"
 
 const cardAppender = (selector) => {
   // TASK 6
@@ -28,6 +63,20 @@ const cardAppender = (selector) => {
   // Create a card from each and every article object in the response, using the Card component.
   // Append each card to the element in the DOM that matches the selector passed to the function.
   //
+
+  axios.get(`http://localhost:5001/api/articles`)
+  .then(res =>{
+    const container = document.querySelector(selector)
+    const data = res.data.articles
+    const names = Object.keys(data)
+    names.map(e=>{
+      const newData = data[e]
+      newData.forEach(element => {
+        container.appendChild(Card(element))
+      });
+    })
+    
+  })
 }
 
-export { Card, cardAppender }
+export { Card, cardAppender}
